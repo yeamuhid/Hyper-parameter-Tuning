@@ -1,0 +1,7 @@
+# Create Optuna study and optimize
+study = optuna.create_study(direction="maximize")
+study.optimize(objective, n_trials=50)
+
+# Best parameters
+print("Best Parameters:", study.best_params)
+print("Best Accuracy Score:", study.best_value)

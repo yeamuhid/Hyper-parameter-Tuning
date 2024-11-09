@@ -1,0 +1,9 @@
+# Train the best model on full training data
+best_params = study.best_params
+best_model = XGBClassifier(**best_params, use_label_encoder=False, eval_metric='logloss')
+best_model.fit(X_train, y_train)
+
+# Make predictions and calculate accuracy
+y_pred = best_model.predict(X_test)
+accuracy = accuracy_score(y_test, y_pred)
+print("Test Set Accuracy:", accuracy)

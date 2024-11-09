@@ -1,0 +1,23 @@
+# Generate a dataset
+X, y = make_classification(n_samples=1000, n_features=20, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Objective function for Bayesian optimization
+def objective(trial):
+    # Define the hyperparameters to tune
+    params = {
+        'n_estimators': trial.suggest_int('n_estimators', 50, 500),
+        'max_depth': trial.suggest_int('max_depth', 3, 15),
+        'learning_rate': trial.suggest_float('learning_rate', 0.01, 0.3),
+        'subsample': trial.suggest_float('subsample', 0.6, 1.0),
+        'colsample_bytree': trial.suggest_float('colsample_bytree', 0.6, 1.0),
+        'gamma': trial.suggest_float('gamma', 0, 0.5)
+    }
+    
+    # Initialize and train the model with cross-validation
+    model = XGBClassifier(**params, use_label_encoder=False, eval_metric='logloss')
+    model.fit(X_train, y_train)
+    y_pred = model.predict(X_test)
+    accuracy = accuracy_score(y_test, y_pred)
+    
+    return accuracy  # Maximize accuracy

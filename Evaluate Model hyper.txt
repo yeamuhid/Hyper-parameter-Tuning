@@ -1,0 +1,7 @@
+# Use best estimator for prediction
+best_model = random_search.best_estimator_
+y_pred = best_model.predict(X_test)
+
+# Accuracy score
+accuracy = accuracy_score(y_test, y_pred)
+print("Test Set Accuracy:", accuracy)
